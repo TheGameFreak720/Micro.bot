@@ -1,0 +1,11 @@
+{
+  "name": "twitter-bot",
+  "version": "1.0.0",
+  "description": "A simple twitter bot that post tweets on a time basis",
+  "main": "bot.js",
+  "author": "Luis Alvarez",
+  "license": "MIT",
+  "dependencies": {
+    "twit": "^2.2.9"
+  }
+}
