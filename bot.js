@@ -17,7 +17,7 @@ stream.on('follow', followed);
 function followed(eventMsg) {
     var name = eventMsg.source.name;
     var screenName = eventMsg.source.screen_name;
-    postTweet('@' + screenName + ' Thank you for following me');
+    postTweet('@' + screenName + ' Hey there, thank you for the follow. Check out my website https://commithub.com/ and share your thoughts. Cheers.');
     console.log(screenName + ' has followed me');
 }
 
