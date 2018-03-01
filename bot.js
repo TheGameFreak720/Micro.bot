@@ -8,20 +8,32 @@ var T = new Twit({
     access_token_secret: config.accessSecret
 });
 
-//  search twitter for all tweets containing the word 'coding'
+// Setting up a user stream
+var stream = T.stream('user');
 
-T.get('search/tweets', { q: 'coding', count: 2 }, function(err, data, response) {
-    let tweets = data.statuses;
+// Anytime someone follows me
+stream.on('follow', followed);
 
-    for (let i = 0; i < tweets.length; i++) {
-        console.log(tweets[i].text);
-    }
-});
+function followed(eventMsg) {
+    var name = eventMsg.source.name;
+    var screenName = eventMsg.source.screen_name;
+    postTweet('@' + screenName + ' Thank you for following me');
+    console.log(screenName + ' has followed me');
+}
 
 //  tweet a hello message from the bot
 
-T.post('statuses/update', { status: 'hello earthlings this is microbot! (testing a bot using twitter api with node)' }, function(err, data, response) {
-    console.log(data)
-});
+function postTweet(txt) {
+
+    var tweet = {
+        status: txt
+    };
+
+    T.post('statuses/update', tweet, function (err, data, response) {
+        console.log(data)
+    });
+
+}
+
 
 console.log('The bot is starting');
