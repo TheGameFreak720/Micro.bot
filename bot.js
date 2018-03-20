@@ -39,15 +39,25 @@ function postTweet(txt) {
 
 //Get Request to Twitch API
 const options = {
-    url: 'https://api.twitch.tv/kraken/streams/ESL_SC2?client_id=' + config.twitchClientId,
+    url: 'https://api.twitch.tv/kraken/streams/marshythevamp?client_id=' + config.twitchClientId,
     method: 'GET'
 };
 
+var fetchTwitch = setInterval(function(){
+    request.get(options, function (error, response, body) {
+        let json = JSON.parse(body);
+        if (json.stream !== null) {
+            console.log(json.stream.channel.display_name + ' is playing ' + json.stream.channel.game
+                + ' follow him at ' + json.stream.channel.url);
+            clearInterval(fetchTwitch);
+        }
+    });
+}, 1800000);
+//30 minutes
+// 1s = 1000ms and 1m = 60s, so 60 * 1000 = 60000
+// 60s * 30 = 1,800s so 1,800 * 1000 = 1,800,000
 
-request.get(options, (error, response, body) => {
-    let json = JSON.parse(body);
-    console.log(json.stream.channel.display_name + ' is playing ' + json.stream.channel.game + ' follow him at ' + json.stream.channel.url);
-});
+
 
 
 console.log('The bot is starting');
