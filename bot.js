@@ -1,4 +1,5 @@
 const Twit = require('twit');
+var request = require('request');
 const config = require('./config');
 
 var T = new Twit({
@@ -34,6 +35,19 @@ function postTweet(txt) {
     });
 
 }
+
+
+//Get Request to Twitch API
+const options = {
+    url: 'https://api.twitch.tv/kraken/streams/ESL_SC2?client_id=' + config.twitchClientId,
+    method: 'GET'
+};
+
+
+request.get(options, (error, response, body) => {
+    let json = JSON.parse(body);
+    console.log(json.stream.channel.display_name + ' is playing ' + json.stream.channel.game + ' follow him at ' + json.stream.channel.url);
+});
 
 
 console.log('The bot is starting');
