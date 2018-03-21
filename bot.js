@@ -1,5 +1,6 @@
 const Twit = require('twit');
-var request = require('request');
+const request = require('request');
+const schedule = require('node-schedule');
 const config = require('./config');
 
 var T = new Twit({
@@ -10,14 +11,14 @@ var T = new Twit({
 });
 
 // Setting up a user stream
-var stream = T.stream('user');
+const stream = T.stream('user');
 
 // Anytime someone follows me
 stream.on('follow', followed);
 
 function followed(eventMsg) {
-    var name = eventMsg.source.name;
-    var screenName = eventMsg.source.screen_name;
+    let name = eventMsg.source.name;
+    let screenName = eventMsg.source.screen_name;
     postTweet('@' + screenName + ' Hey there, thank you for the follow. Check out my website https://commithub.com/ and share your thoughts. Cheers.');
     console.log(screenName + ' has followed me');
 }
@@ -35,6 +36,13 @@ function postTweet(txt) {
     });
 
 }
+//Schedule Posts
+const rule = new schedule.RecurrenceRule();
+rule.hour = 11;
+
+const j = schedule.scheduleJob(rule, function(){
+    console.log('The answer to life, the universe, and everything!');
+});
 
 
 //Get Request to Twitch API
@@ -48,7 +56,7 @@ function postTweetMarshy() {
         request.get(options, function (error, response, body) {
             let json = JSON.parse(body);
 
-            var tweet = {
+            let tweet = {
                 status: json.stream.channel.display_name + ' is playing ' + json.stream.channel.game
                 + ' follow him at ' + json.stream.channel.url
             };
@@ -65,13 +73,9 @@ function postTweetMarshy() {
             }
         });
     }, 600000); //10 minutes
-
-    // 1s = 1000ms and 1m = 60s, so 60 * 1000 = 60000ms
-    // 60s * 30 = 600s so 600 * 1000 = 600,000ms
-    // 60s * 60 = 3,600 * 24 hr = 86,400 so 86,400 * 1000 = 86,400,000ms
 }
 
-postTweetMarshy();
+//postTweetMarshy();
 
 
 console.log('The bot is starting');

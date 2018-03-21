@@ -6,6 +6,7 @@
   "author": "Luis Alvarez",
   "license": "MIT",
   "dependencies": {
+    "node-schedule": "^1.3.0",
     "request": "^2.85.0",
     "twit": "^2.2.9"
   }
