@@ -39,46 +39,75 @@ function followed(eventMsg) {
     console.log(screenName + ' has followed me');
 }
 
-//  tweet a hello message from the bot
-
-function postTweet(txt) {
-
-    let tweet = {
-        status: txt
-    };
-
-    T.post('statuses/update', tweet, function (err, data, response) {
-        console.log(data)
-    });
-
-}
-
 //Bring in Models
 let Video = require('./models/video');
+let Article = require('./models/article');
 
-Video.find( function (err, video) {
+
+//Schedule Posts
+const videoRule = new schedule.RecurrenceRule();
+const articleRule = new schedule.RecurrenceRule();
+
+videoRule.hour = 11;
+articleRule.hour =  17; //5:00 PM
+
+Article.find( function (err, article) {
     if (err) {
         console.log(err);
     } else {
-        console.log(video);
+        let tweet = {
+            status: article[0].body + '\n \n' + article[0].link
+        };
+
+        console.log(tweet.status);
+        T.post('statuses/update', tweet, function (err, data, response) {
+            if(err) {
+                console.log(err);
+            }
+        });
+        article[0].remove();
     }
 });
 
 
-//Schedule Posts
-const youtubeRule = new schedule.RecurrenceRule();
-const articleRule = new schedule.RecurrenceRule();
+const videoPost = schedule.scheduleJob(videoRule, function(){
+    Video.find( function (err, video) {
+        if (err) {
+            console.log(err);
+        } else {
+            let tweet = {
+                status: video[0].body + '\n \n' + video[0].link
+            };
 
-youtubeRule.hour = 11;
-articleRule.hour =  17; //5:00 PM
-
-
-const youtubePost = schedule.scheduleJob(youtubeRule, function(){
-    console.log('The answer to life, the universe, and everything!');
+            console.log(tweet.status);
+            T.post('statuses/update', tweet, function (err, data, response) {
+                if(err) {
+                    console.log(err);
+                }
+            });
+            video[0].remove();
+        }
+    });
 });
 
 const articlePost = schedule.scheduleJob(articleRule, function(){
-    console.log('The answer to life, the universe, and everything!');
+    Article.find( function (err, article) {
+        if (err) {
+            console.log(err);
+        } else {
+            let tweet = {
+                status: article[0].body + '\n \n' + article[0].link
+            };
+
+            console.log(tweet.status);
+            T.post('statuses/update', tweet, function (err, data, response) {
+                if(err) {
+                    console.log(err);
+                }
+            });
+            article[0].remove();
+        }
+    });
 });
 
 
