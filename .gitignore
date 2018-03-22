@@ -1,2 +1,3 @@
-config.js
+config/
+node_modules/
 .idea

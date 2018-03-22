@@ -1,17 +1,33 @@
 const Twit = require('twit');
 const request = require('request');
 const schedule = require('node-schedule');
-const config = require('./config');
+const mongoose = require('mongoose');
+const twit = require('./config/twit');
+const twitch = require('./config/twitch');
+const config = require('./config/database');
 
 var T = new Twit({
-    consumer_key: config.consumerKey,
-    consumer_secret: config.consumerSecret,
-    access_token: config.accessToken,
-    access_token_secret: config.accessSecret
+    consumer_key: twit.consumerKey,
+    consumer_secret: twit.consumerSecret,
+    access_token: twit.accessToken,
+    access_token_secret: twit.accessSecret
 });
 
 // Setting up a user stream
 const stream = T.stream('user');
+
+mongoose.connect(config.database);
+let db = mongoose.connection;
+
+//Check for DB Connection
+db.once('open', function() {
+    console.log('Connected to MongoDB');
+});
+
+//Check for DB errors
+db.on('error', function(err) {
+    console.log(err);
+});
 
 // Anytime someone follows me
 stream.on('follow', followed);
@@ -27,7 +43,7 @@ function followed(eventMsg) {
 
 function postTweet(txt) {
 
-    var tweet = {
+    let tweet = {
         status: txt
     };
 
@@ -36,18 +52,39 @@ function postTweet(txt) {
     });
 
 }
-//Schedule Posts
-const rule = new schedule.RecurrenceRule();
-rule.hour = 11;
 
-const j = schedule.scheduleJob(rule, function(){
+//Bring in Models
+let Video = require('./models/video');
+
+Video.find( function (err, video) {
+    if (err) {
+        console.log(err);
+    } else {
+        console.log(video);
+    }
+});
+
+
+//Schedule Posts
+const youtubeRule = new schedule.RecurrenceRule();
+const articleRule = new schedule.RecurrenceRule();
+
+youtubeRule.hour = 11;
+articleRule.hour =  17; //5:00 PM
+
+
+const youtubePost = schedule.scheduleJob(youtubeRule, function(){
+    console.log('The answer to life, the universe, and everything!');
+});
+
+const articlePost = schedule.scheduleJob(articleRule, function(){
     console.log('The answer to life, the universe, and everything!');
 });
 
 
 //Get Request to Twitch API
 const options = {
-    url: 'https://api.twitch.tv/kraken/streams/marshythevamp?client_id=' + config.twitchClientId,
+    url: 'https://api.twitch.tv/kraken/streams/marshythevamp?client_id=' + twitch.twitchClientId,
     method: 'GET'
 };
 
@@ -75,7 +112,7 @@ function postTweetMarshy() {
     }, 600000); //10 minutes
 }
 
-//postTweetMarshy();
+postTweetMarshy();
 
 
 console.log('The bot is starting');
