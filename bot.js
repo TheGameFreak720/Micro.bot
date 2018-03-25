@@ -2,21 +2,21 @@ const Twit = require('twit');
 const request = require('request');
 const schedule = require('node-schedule');
 const mongoose = require('mongoose');
-const twit = require('./config/twit');
-const twitch = require('./config/twitch');
-const config = require('./config/database');
+const twitConfig = require('./config/twit');
+const twitchConfig = require('./config/twitch');
+const dbConfig = require('./config/database');
 
 var T = new Twit({
-    consumer_key: twit.consumerKey,
-    consumer_secret: twit.consumerSecret,
-    access_token: twit.accessToken,
-    access_token_secret: twit.accessSecret
+    consumer_key: twitConfig.consumerKey,
+    consumer_secret: twitConfig.consumerSecret,
+    access_token: twitConfig.accessToken,
+    access_token_secret: twitConfig.accessSecret
 });
 
 // Setting up a user stream
 const stream = T.stream('user');
 
-mongoose.connect(config.database);
+mongoose.connect(dbConfig.database);
 let db = mongoose.connection;
 
 //Check for DB Connection
@@ -49,26 +49,9 @@ const videoRule = new schedule.RecurrenceRule();
 const articleRule = new schedule.RecurrenceRule();
 
 videoRule.hour = 11;
+videoRule.minute = 30;
 articleRule.hour =  17; //5:00 PM
-
-Article.find( function (err, article) {
-    if (err) {
-        console.log(err);
-    } else {
-        let tweet = {
-            status: article[0].body + '\n \n' + article[0].link
-        };
-
-        console.log(tweet.status);
-        T.post('statuses/update', tweet, function (err, data, response) {
-            if(err) {
-                console.log(err);
-            }
-        });
-        article[0].remove();
-    }
-});
-
+articleRule.minute = 30;
 
 const videoPost = schedule.scheduleJob(videoRule, function(){
     Video.find( function (err, video) {
@@ -113,7 +96,7 @@ const articlePost = schedule.scheduleJob(articleRule, function(){
 
 //Get Request to Twitch API
 const options = {
-    url: 'https://api.twitch.tv/kraken/streams/marshythevamp?client_id=' + twitch.twitchClientId,
+    url: 'https://api.twitch.tv/kraken/streams/marshythevamp?client_id=' + twitchConfig.twitchClientId,
     method: 'GET'
 };
 
