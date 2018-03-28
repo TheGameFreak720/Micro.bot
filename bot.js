@@ -105,12 +105,13 @@ function postTweetMarshy() {
         request.get(options, function (error, response, body) {
             let json = JSON.parse(body);
 
-            let tweet = {
-                status: json.stream.channel.display_name + ' is playing ' + json.stream.channel.game
-                + ' follow him at ' + json.stream.channel.url
-            };
-
             if (json.stream !== null) {
+
+                let tweet = {
+                    status: json.stream.channel.display_name + ' is playing ' + json.stream.channel.game
+                    + ' follow him at ' + json.stream.channel.url
+                };
+
                 T.post('statuses/update', tweet, function (err, data, response) {
                     console.log(data)
                 });
@@ -119,6 +120,8 @@ function postTweetMarshy() {
                     clearInterval(wait);
                     postTweetMarshy();
                 }, 86400000); // 24 hours
+            } else {
+                console.log('Offline');
             }
         });
     }, 600000); //10 minutes
