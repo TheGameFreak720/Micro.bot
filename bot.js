@@ -48,12 +48,8 @@ let Article = require('./models/article');
 const videoRule = new schedule.RecurrenceRule();
 const articleRule = new schedule.RecurrenceRule();
 
-videoRule.hour = 11;
-videoRule.minute = 30;
-articleRule.hour =  17; //5:00 PM
-articleRule.minute = 30;
 
-const videoPost = schedule.scheduleJob(videoRule, function(){
+const videoPost = schedule.scheduleJob({hour: 11, minute: 0}, function(){
     Video.find( function (err, video) {
         if (err) {
             console.log(err);
@@ -73,7 +69,7 @@ const videoPost = schedule.scheduleJob(videoRule, function(){
     });
 });
 
-const articlePost = schedule.scheduleJob(articleRule, function(){
+const articlePost = schedule.scheduleJob({hour: 17, minute: 0}, function(){
     Article.find( function (err, article) {
         if (err) {
             console.log(err);
