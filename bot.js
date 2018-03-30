@@ -45,9 +45,6 @@ let Article = require('./models/article');
 
 
 //Schedule Posts
-const videoRule = new schedule.RecurrenceRule();
-const articleRule = new schedule.RecurrenceRule();
-
 
 const videoPost = schedule.scheduleJob({hour: 11, minute: 0}, function(){
     Video.find( function (err, video) {
@@ -108,7 +105,7 @@ function postTweetMarshy() {
 
             if (json.stream !== null) {
                 T.post('statuses/update', tweet, function (err, data, response) {
-                    console.log(data)
+                    console.log(tweet);
                 });
                 clearInterval(fetchTwitch);
                 let wait = setInterval(function() {
