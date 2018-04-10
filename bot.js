@@ -1,134 +1,113 @@
+const express = require('express');
 const Twit = require('twit');
 const request = require('request');
 const schedule = require('node-schedule');
-const mongoose = require('mongoose');
 const twitConfig = require('./config/twit');
 const twitchConfig = require('./config/twitch');
-const dbConfig = require('./config/database');
 
-var T = new Twit({
-    consumer_key: twitConfig.consumerKey,
-    consumer_secret: twitConfig.consumerSecret,
-    access_token: twitConfig.accessToken,
-    access_token_secret: twitConfig.accessSecret
-});
+module.exports = function bot() {
 
-// Setting up a user stream
-const stream = T.stream('user');
-
-mongoose.connect(dbConfig.database);
-let db = mongoose.connection;
-
-//Check for DB Connection
-db.once('open', function() {
-    console.log('Connected to MongoDB');
-});
-
-//Check for DB errors
-db.on('error', function(err) {
-    console.log(err);
-});
-
-// Anytime someone follows me
-stream.on('follow', followed);
-
-function followed(eventMsg) {
-    let name = eventMsg.source.name;
-    let screenName = eventMsg.source.screen_name;
-    postTweet('@' + screenName + ' Hey there, thank you for the follow. Check out my website https://commithub.com/ and share your thoughts. Cheers.');
-    console.log(screenName + ' has followed me');
-}
-
-//Bring in Models
-let Video = require('./models/video');
-let Article = require('./models/article');
-
-
-//Schedule Posts
-const videoRule = new schedule.RecurrenceRule();
-const articleRule = new schedule.RecurrenceRule();
-
-videoRule.hour = 11;
-videoRule.minute = 30;
-articleRule.hour =  17; //5:00 PM
-articleRule.minute = 30;
-
-const videoPost = schedule.scheduleJob(videoRule, function(){
-    Video.find( function (err, video) {
-        if (err) {
-            console.log(err);
-        } else {
-            let tweet = {
-                status: video[0].body + '\n \n' + video[0].link
-            };
-
-            console.log(tweet.status);
-            T.post('statuses/update', tweet, function (err, data, response) {
-                if(err) {
-                    console.log(err);
-                }
-            });
-            video[0].remove();
-        }
+    var T = new Twit({
+        consumer_key: twitConfig.consumerKey,
+        consumer_secret: twitConfig.consumerSecret,
+        access_token: twitConfig.accessToken,
+        access_token_secret: twitConfig.accessSecret
     });
-});
 
-const articlePost = schedule.scheduleJob(articleRule, function(){
-    Article.find( function (err, article) {
-        if (err) {
-            console.log(err);
-        } else {
-            let tweet = {
-                status: article[0].body + '\n \n' + article[0].link
-            };
+    // Setting up a user stream
+    const stream = T.stream('user');
 
-            console.log(tweet.status);
-            T.post('statuses/update', tweet, function (err, data, response) {
-                if(err) {
-                    console.log(err);
-                }
-            });
-            article[0].remove();
-        }
+
+    // Anytime someone follows me
+    stream.on('follow', followed);
+
+    function followed(eventMsg) {
+        let name = eventMsg.source.name;
+        let screenName = eventMsg.source.screen_name;
+        T.post('@' + screenName + ' Hey there, thank you for the follow. Check out my website https://commithub.com/ and share your thoughts. Cheers.');
+        console.log(screenName + ' has followed me');
+    }
+
+    //Bring in Models
+    let Video = require('./models/video');
+    let Article = require('./models/article');
+
+
+    //Schedule Posts
+
+    const videoPost = schedule.scheduleJob({hour: 11, minute: 0}, function () {
+        Video.find(function (err, video) {
+            if (err) {
+                console.log(err);
+            } else {
+                let tweet = {
+                    status: video[0].body + '\n \n' + video[0].link
+                };
+
+                console.log(tweet.status);
+                T.post('statuses/update', tweet, function (err, data, response) {
+                    if (err) {
+                        console.log(err);
+                    }
+                });
+                video[0].remove();
+            }
+        });
     });
-});
+
+    const articlePost = schedule.scheduleJob({hour: 17, minute: 0}, function () {
+        Article.find(function (err, article) {
+            if (err) {
+                console.log(err);
+            } else {
+                let tweet = {
+                    status: article[0].body + '\n \n' + article[0].link
+                };
+
+                console.log(tweet.status);
+                T.post('statuses/update', tweet, function (err, data, response) {
+                    if (err) {
+                        console.log(err);
+                    }
+                });
+                article[0].remove();
+            }
+        });
+    });
 
 
-//Get Request to Twitch API
-const options = {
-    url: 'https://api.twitch.tv/kraken/streams/marshythevamp?client_id=' + twitchConfig.twitchClientId,
-    method: 'GET'
-};
+    //Get Request to Twitch API
+    const options = {
+        url: 'https://api.twitch.tv/kraken/streams/marshythevamp?client_id=' + twitchConfig.twitchClientId,
+        method: 'GET'
+    };
 
-function postTweetMarshy() {
-    let fetchTwitch = setInterval(function () {
-        request.get(options, function (error, response, body) {
-            let json = JSON.parse(body);
-
-            if (json.stream !== null) {
+    function postTweetMarshy() {
+        let fetchTwitch = setInterval(function () {
+            request.get(options, function (error, response, body) {
+                let json = JSON.parse(body);
 
                 let tweet = {
                     status: json.stream.channel.display_name + ' is playing ' + json.stream.channel.game
                     + ' follow him at ' + json.stream.channel.url
                 };
 
-                T.post('statuses/update', tweet, function (err, data, response) {
-                    console.log(data)
-                });
-                clearInterval(fetchTwitch);
-                let wait = setInterval(function() {
-                    clearInterval(wait);
-                    postTweetMarshy();
-                }, 86400000); // 24 hours
-            } else {
-                console.log('Offline');
-            }
-        });
-    }, 600000); //10 minutes
-}
+                if (json.stream !== null) {
+                    T.post('statuses/update', tweet, function (err, data, response) {
+                        console.log(tweet);
+                    });
+                    clearInterval(fetchTwitch);
+                    let wait = setInterval(function () {
+                        clearInterval(wait);
+                        postTweetMarshy();
+                    }, 86400000); // 24 hours
+                }
+            });
+        }, 600000); //10 minutes
+    }
 
-postTweetMarshy();
+    //postTweetMarshy();
 
 
-console.log('The bot is starting');
-
+    console.log('The bot is starting');
+};
