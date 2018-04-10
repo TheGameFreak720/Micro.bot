@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
-var validate = require('mongoose-validator');
+const validate = require('mongoose-validator');
 
-var bodyValidator = [
+const bodyValidator = [
     validate({
         validator: 'isLength',
         arguments: [1, 200],
@@ -9,7 +9,6 @@ var bodyValidator = [
     })
 ];
 
-//Video Schema
 const videoSchema = mongoose.Schema({
     body:{
         type: String,
