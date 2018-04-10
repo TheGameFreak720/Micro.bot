@@ -105,12 +105,12 @@ app.get('/videos/add', function(req, res) {
 });
 
 //Add Submit Post Route
-app.post('/articles/add', function(req, res) {
+app.post('/videos/add', function(req, res) {
     let video = new Video();
-    article.body = req.body.body;
-    article.link = req.body.link;
+    video.body = req.body.body;
+    video.link = req.body.link;
 
-    article.save(function(err) {
+    video.save(function(err) {
         if(err) {
             console.log(err);
             return;
