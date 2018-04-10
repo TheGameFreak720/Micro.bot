@@ -41,11 +41,18 @@ bot();
 
 //Home Route
 app.get('/', function(req, res) {
+    res.render('index', {
+        title:'Home'
+    });
+});
+
+//Article Routes
+app.get('/articles', function(req, res) {
     Article.find({}, function(err, articles) {
         if (err) {
             console.log(err);
         } else {
-            res.render('index', {
+            res.render('article', {
                 title:'Articles',
                 articles:articles
             });
@@ -71,7 +78,44 @@ app.post('/articles/add', function(req, res) {
             console.log(err);
             return;
         } else {
-            res.redirect('/');
+            res.redirect('/articles');
+        }
+    });
+});
+
+//Video Routes
+app.get('/videos', function(req, res) {
+    Video.find({}, function(err, videos) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.render('video', {
+                title:'Videos',
+                videos:videos
+            });
+        }
+    });
+});
+
+//Add Route
+app.get('/videos/add', function(req, res) {
+    res.render('add_video', {
+        title: 'Add Video'
+    });
+});
+
+//Add Submit Post Route
+app.post('/articles/add', function(req, res) {
+    let video = new Video();
+    article.body = req.body.body;
+    article.link = req.body.link;
+
+    article.save(function(err) {
+        if(err) {
+            console.log(err);
+            return;
+        } else {
+            res.redirect('/videos');
         }
     });
 });
