@@ -12,6 +12,7 @@
     "mongoose": "^5.0.11",
     "mongoose-validator": "^2.0.2",
     "node-schedule": "^1.3.0",
+    "nodemon": "^1.17.3",
     "pug": "^2.0.3",
     "request": "^2.85.0",
     "twit": "^2.2.9"

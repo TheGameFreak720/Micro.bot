@@ -32,6 +32,7 @@ app.set('view engine', 'pug');
 //Load bot
 bot();
 
+
 //Home Route
 app.get('/', function(req, res) {
     Article.find({}, function(err, articles) {
@@ -46,6 +47,12 @@ app.get('/', function(req, res) {
     });
 });
 
+//Add Route
+app.get('/articles/add', function(req, res) {
+    res.render('add_article', {
+       title: 'Add Article'
+    });
+});
 
 //Start Server
 app.listen(3000, function(){
