@@ -49,7 +49,7 @@ app.get('/', function(req, res) {
     });
 });
 
-//Article Routes
+///Article Routes
 app.get('/articles', function(req, res) {
     Article.find({}, function(err, articles) {
         if (err) {
@@ -123,7 +123,19 @@ app.post('/articles/edit/:id', function(req, res) {
     });
 });
 
-//Video Routes
+app.delete('/article/:id', function(req,res) {
+
+    let query = {_id:req.params.id};
+
+    Article.remove(query, function(err) {
+        if(err) {
+            console.log(err);
+        }
+        res.send('Success');
+    });
+});
+
+///Video Routes
 app.get('/videos', function(req, res) {
     Video.find({}, function(err, videos) {
         if (err) {
