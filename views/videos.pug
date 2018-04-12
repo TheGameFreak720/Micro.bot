@@ -1,0 +1,8 @@
+extends layout
+
+block content
+    h1 #{title}
+    ul.list-group
+        each video, i in videos
+            li.list-group-item
+                a(href="/video/" + video._id)= video.body

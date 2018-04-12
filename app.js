@@ -35,6 +35,9 @@ app.use(bodyParser.urlencoded({ extended:false }));
 //parse application/json
 app.use(bodyParser.json());
 
+//Set public folder
+app.use(express.static(path.join(__dirname, 'public')));
+
 //Load bot
 bot();
 
@@ -52,11 +55,20 @@ app.get('/articles', function(req, res) {
         if (err) {
             console.log(err);
         } else {
-            res.render('article', {
+            res.render('articles', {
                 title:'Articles',
                 articles:articles
             });
         }
+    });
+});
+
+//Get single Article
+app.get('/article/:id', function(req, res) {
+    Article.findById(req.params.id, function(err, article) {
+        res.render('article', {
+            article: article
+        });
     });
 });
 
@@ -89,11 +101,20 @@ app.get('/videos', function(req, res) {
         if (err) {
             console.log(err);
         } else {
-            res.render('video', {
+            res.render('videos', {
                 title:'Videos',
                 videos:videos
             });
         }
+    });
+});
+
+//Get single Video
+app.get('/video/:id', function(req, res) {
+    Video.findById(req.params.id, function(err, video) {
+        res.render('video', {
+            video: video
+        });
     });
 });
 

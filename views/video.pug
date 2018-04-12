@@ -1,7 +1,6 @@
 extends layout
 
 block content
-    h1 #{title}
-    ul
-        each video, i in videos
-            li= video.body
+    h4= video.body
+    br
+    a(href=video.link)= video.link

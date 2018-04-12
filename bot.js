@@ -108,7 +108,7 @@ module.exports = function bot() {
         }, 600000); //10 minutes
     }
 
-    postTweetMarshy();
+    //postTweetMarshy();
 
 
     console.log('The bot is starting');
