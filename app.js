@@ -158,6 +158,16 @@ app.get('/video/:id', function(req, res) {
     });
 });
 
+//Load Edit Form
+app.get('/video/edit/:id', function(req, res) {
+    Video.findById(req.params.id, function(err, video) {
+        res.render('edit_video', {
+            title: 'Edit Video',
+            video: video
+        });
+    });
+});
+
 //Add Route
 app.get('/videos/add', function(req, res) {
     res.render('add_video', {
@@ -180,6 +190,39 @@ app.post('/videos/add', function(req, res) {
         }
     });
 });
+
+//Update Submit Post Route
+app.post('/videos/edit/:id', function(req, res) {
+    let video = {};
+    video.body = req.body.body;
+    video.link = req.body.link;
+
+    let query = {_id:req.params.id};
+
+    Video.update(query, video, function(err) {
+        if(err) {
+            console.log(err);
+            return;
+        } else {
+            res.redirect('/videos');
+        }
+    });
+});
+
+app.delete('/video/:id', function(req,res) {
+
+    let query = {_id:req.params.id};
+
+    Video.remove(query, function(err) {
+        if(err) {
+            console.log(err);
+        }
+        res.send('Success');
+    });
+});
+
+
+
 
 //Start Server
 app.listen(3000, function(){

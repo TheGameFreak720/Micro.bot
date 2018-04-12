@@ -4,3 +4,6 @@ block content
     h4= video.body
     br
     a(href=video.link)= video.link
+    hr
+    a.btn.btn-default(href='/video/edit/' + video._id) Edit
+    a.btn.btn-danger.delete-video(href='#', data-id=video._id) Delete
