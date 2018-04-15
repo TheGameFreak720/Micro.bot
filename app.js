@@ -125,38 +125,67 @@ app.get('/articles/add', function(req, res) {
 
 //Add Submit Post Route
 app.post('/articles/add', function(req, res) {
-    let article = new Article();
-    article.body = req.body.body;
-    article.link = req.body.link;
+    req.checkBody('body', 'Body is required!').notEmpty();
+    req.checkBody('link', 'Link is required!').notEmpty();
 
-    article.save(function(err) {
-        if(err) {
-            console.log(err);
-            return;
-        } else {
-            req.flash('success', 'Article Added');
-            res.redirect('/articles');
-        }
-    });
+    //Get errors
+    let errors = req.validationErrors();
+
+    if (errors) {
+        res.render('add_article', {
+            title:'Add Article',
+            errors:errors
+        });
+    } else {
+        let article = new Article();
+        article.body = req.body.body;
+        article.link = req.body.link;
+
+        article.save(function (err) {
+            if (err) {
+                console.log(err);
+                return;
+            } else {
+                req.flash('success', 'Article Added');
+                res.redirect('/articles');
+            }
+        });
+    }
 });
 
 //Update Submit Post Route
 app.post('/articles/edit/:id', function(req, res) {
-    let article = {};
-    article.body = req.body.body;
-    article.link = req.body.link;
+    req.checkBody('body', 'Body is required!').notEmpty();
+    req.checkBody('link', 'Link is required!').notEmpty();
 
-    let query = {_id:req.params.id};
+    //Get errors
+    let errors = req.validationErrors();
 
-    Article.update(query, article, function(err) {
-        if(err) {
-            console.log(err);
-            return;
-        } else {
-            req.flash('success', 'Article Updated');
-            res.redirect('/articles');
-        }
-    });
+    if (errors) {
+        Article.findById(req.params.id, function(err, article) {
+            res.render('edit_article', {
+                title: 'Edit Article',
+                article: article,
+                errors: errors
+            });
+        });
+    } else {
+        let article = {};
+        article.body = req.body.body;
+        article.link = req.body.link;
+
+        let query = {_id: req.params.id};
+
+        Article.update(query, article, function (err) {
+            if (err) {
+                console.log(err);
+                return;
+            } else {
+                req.flash('success', 'Article Updated');
+                res.redirect('/articles');
+            }
+        });
+    }
 });
 
 app.delete('/article/:id', function(req,res) {
@@ -213,38 +242,67 @@ app.get('/videos/add', function(req, res) {
 
 //Add Submit Post Route
 app.post('/videos/add', function(req, res) {
-    let video = new Video();
-    video.body = req.body.body;
-    video.link = req.body.link;
+    req.checkBody('body', 'Body is required!').notEmpty();
+    req.checkBody('link', 'Link is required!').notEmpty();
 
-    video.save(function(err) {
-        if(err) {
-            console.log(err);
-            return;
-        } else {
-            req.flash('success', 'Video Added');
-            res.redirect('/videos');
-        }
-    });
+    //Get errors
+    let errors = req.validationErrors();
+
+    if (errors) {
+        res.render('add_video', {
+            title:'Add Video',
+            errors:errors
+        });
+    } else {
+        let video = new Video();
+        video.body = req.body.body;
+        video.link = req.body.link;
+
+        video.save(function (err) {
+            if (err) {
+                console.log(err);
+                return;
+            } else {
+                req.flash('success', 'Video Added');
+                res.redirect('/videos');
+            }
+        });
+    }
 });
 
 //Update Submit Post Route
 app.post('/videos/edit/:id', function(req, res) {
-    let video = {};
-    video.body = req.body.body;
-    video.link = req.body.link;
+    req.checkBody('body', 'Body is required!').notEmpty();
+    req.checkBody('link', 'Link is required!').notEmpty();
 
-    let query = {_id:req.params.id};
+    //Get errors
+    let errors = req.validationErrors();
 
-    Video.update(query, video, function(err) {
-        if(err) {
-            console.log(err);
-            return;
-        } else {
-            req.flash('success', 'Video Updated');
-            res.redirect('/videos');
-        }
-    });
+    if (errors) {
+        Video.findById(req.params.id, function(err, video) {
+            res.render('edit_video', {
+                title: 'Edit Article',
+                video: video,
+                errors: errors
+            });
+        });
+    } else {
+        let video = {};
+        video.body = req.body.body;
+        video.link = req.body.link;
+
+        let query = {_id: req.params.id};
+
+        Video.update(query, video, function (err) {
+            if (err) {
+                console.log(err);
+                return;
+            } else {
+                req.flash('success', 'Video Updated');
+                res.redirect('/videos');
+            }
+        });
+    }
 });
 
 app.delete('/video/:id', function(req,res) {
