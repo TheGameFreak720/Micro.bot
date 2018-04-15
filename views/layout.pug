@@ -27,6 +27,7 @@ html
                         li
                             a(href='/videos/add') Add Videos
         .container
+            != messages('message', locals)
             block content
             br
             hr
