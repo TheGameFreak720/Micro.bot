@@ -1,0 +1,24 @@
+.logo {
+    display: block;
+    width: 50%;
+    height: 50%;
+    margin: 0 auto;
+}
+
+.center-text {
+    text-align: center;
+}
+
+.navbar-custom {
+    background-color: #21c6ce;
+}
+
+.custom-link {
+    text-decoration: none;
+    color: black;
+}
+
+.custom-link:hover {
+    text-decoration: none;
+    color: black;
+}
