@@ -18,15 +18,6 @@ router.get('/', function(req, res) {
     });
 });
 
-//Get single Article
-router.get('/:id', function(req, res) {
-    Article.findById(req.params.id, function(err, article) {
-        res.render('article', {
-            article: article
-        });
-    });
-});
-
 //Load Edit Form
 router.get('/edit/:id', function(req, res) {
     Article.findById(req.params.id, function(err, article) {
@@ -118,6 +109,15 @@ router.delete('/:id', function(req,res) {
             console.log(err);
         }
         res.send('Success');
+    });
+});
+
+//Get single Article
+router.get('/:id', function(req, res) {
+    Article.findById(req.params.id, function(err, article) {
+        res.render('article', {
+            article: article
+        });
     });
 });
 

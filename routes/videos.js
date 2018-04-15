@@ -17,15 +17,6 @@ router.get('/', function(req, res) {
     });
 });
 
-//Get single Video
-router.get('/:id', function(req, res) {
-    Video.findById(req.params.id, function(err, video) {
-        res.render('video', {
-            video: video
-        });
-    });
-});
-
 //Load Edit Form
 router.get('/edit/:id', function(req, res) {
     Video.findById(req.params.id, function(err, video) {
@@ -117,6 +108,15 @@ router.delete('/:id', function(req,res) {
             console.log(err);
         }
         res.send('Success');
+    });
+});
+
+//Get single Video
+router.get('/:id', function(req, res) {
+    Video.findById(req.params.id, function(err, video) {
+        res.render('video', {
+            video: video
+        });
     });
 });
 
