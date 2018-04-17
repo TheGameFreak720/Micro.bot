@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
 const flash = require('connect-flash');
 const session = require('express-session');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
 const dbConfig = require('./config/database');
 const bot = require('./bot');
 
@@ -48,6 +50,11 @@ app.use(session({
     saveUninitialized:true
 }));
 
+// Passport init
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 //Express Messages Middleware
 app.use(require('connect-flash')());
 app.use(function (req, res, next) {
@@ -86,8 +93,10 @@ app.get('/', function(req, res) {
 //Route Files
 let articles = require('./routes/articles');
 let videos = require('./routes/videos');
+let users = require('./routes/users');
 app.use('/articles', articles);
 app.use('/videos', videos);
+app.use('/users', users);
 
 
 
