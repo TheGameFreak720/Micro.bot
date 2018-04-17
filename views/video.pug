@@ -1,9 +1,10 @@
 extends layout
 
 block content
-    h4= video.body
-    br
-    a(href=video.link)= video.link
+    .text-center
+        h2= video.body
+        a.btn.btn-primary.btn-lg(href=video.link, target='_blank') Go to video
     hr
-    a.btn.btn-default(href='/videos/edit/' + video._id) Edit
-    a.btn.btn-danger.delete-video(href='#', data-id=video._id) Delete
+    .text-center
+        a.btn.btn-primary(href='/videos/edit/' + video._id) Edit
+        a.btn.btn-danger.delete-video(href='#', data-id=video._id) Delete
