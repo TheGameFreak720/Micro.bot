@@ -19,12 +19,12 @@ h1 {
 
 .custom-link {
     text-decoration: none;
-    color: black;
+    color: white;
 }
 
 .custom-link:hover {
     text-decoration: none;
-    color: black;
+    color: white;
 }
 
 #form-group {

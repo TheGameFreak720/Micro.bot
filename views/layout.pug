@@ -6,7 +6,7 @@ html
         link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css', integrity='sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u', crossorigin='anonymous')
         link(rel='stylesheet', href='/css/style.css')
     body
-        nav.navbar.navbar-custom
+        nav.navbar.navbar-dark.navbar-custom
             .container
                 .navbar-header
                     button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
@@ -14,19 +14,18 @@ html
                         span.icon-bar
                         span.icon-bar
                         span.icon-bar
-                    a.navbar-brand.custom-link(href='/') Micro.bot
+                    a.navbar-brand(href='/') Micro.bot
                 #navbar.collapse.navbar-collapse
                     ul.nav.navbar-nav
-                        li.dropdown
-                            a.custom-link.dropdown-toggle(data-toggle='dropdown', href='#')
+                        li.nav-item.dropdown
+                            a#navbarDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
                                 | Articles
                                 span.caret
-                            ul.dropdown-menu
-                                li
-                                    a.custom-link(href='/articles') Article List
-                                    a.custom-link(href='/articles/add') Add Article
-                        li.dropdown
-                            a.custom-link.dropdown-toggle(data-toggle='dropdown', href='#')
+                            .dropdown-menu(aria-labelledby='navbarDropdown')
+                                a.dropdown-item(href='/articles') Article List
+                                a.dropdown-item(href='/articles/add') Add Article
+                        li.nav-item.dropdown
+                            a.dropdown-toggle(data-toggle='dropdown', href='#')
                                 | Videos
                                 span.caret
                             ul.dropdown-menu
