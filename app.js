@@ -10,7 +10,13 @@ const LocalStrategy = require('passport-local').Strategy;
 const dbConfig = require('./config/database');
 const bot = require('./bot');
 
-mongoose.connect(dbConfig.database);
+//Set connection parameters
+const options = {
+    reconnectTries: Number.MAX_VALUE, // Never stop trying to reconnect
+    reconnectInterval: 500 // Reconnect every 500ms
+};
+
+mongoose.connect(dbConfig.database, options);
 let db = mongoose.connection;
 
 //Check for DB Connection
