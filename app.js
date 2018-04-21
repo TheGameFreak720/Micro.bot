@@ -59,6 +59,7 @@ app.use(passport.session());
 app.use(require('connect-flash')());
 app.use(function (req, res, next) {
     res.locals.messages = require('express-messages')(req, res);
+    res.locals.user = req.user || null;
     next();
 });
 
@@ -83,8 +84,17 @@ app.use(expressValidator({
 //Load bot
 bot();
 
+function ensureAuthenticated(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    } else {
+        req.flash('danger','You need to sign in for access to this page');
+        res.redirect('/users/login');
+    }
+}
+
 //Home Route
-app.get('/', function(req, res) {
+app.get('/', ensureAuthenticated, function(req, res) {
     res.render('index', {
         title:'Home'
     });

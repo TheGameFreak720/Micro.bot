@@ -17,28 +17,30 @@ html
                     a.navbar-brand.custom-link(href='/') Micro.bot
                 #navbar.collapse.navbar-collapse
                     ul.nav.navbar-nav
-                        li.dropdown
-                            a.custom-link.dropdown-toggle(data-toggle='dropdown', href='#')
-                                | Articles
-                                span.caret
-                            ul.dropdown-menu
-                                li
-                                    a.custom-link(href='/articles') Article List
-                                    a.custom-link(href='/articles/add') Add Article
-                        li.dropdown
-                            a.custom-link.dropdown-toggle(data-toggle='dropdown', href='#')
-                                | Videos
-                                span.caret
-                            ul.dropdown-menu
-                                li
-                                    a.custom-link(href='/videos') Video List
-                                    a.custom-link(href='/videos/add') Add Videos
-                        li
-                            a.custom-link(href='/users/login') Login
-                        li
-                            a.custom-link(href='/users/register') Register
-                        li
-                            a.custom-link(href='/users/logout') Logout
+                        if !user
+                            li
+                                a.custom-link(href='/users/login') Login
+                        else
+                            li.dropdown
+                                a.custom-link.dropdown-toggle(data-toggle='dropdown', href='#')
+                                    | Articles
+                                    span.caret
+                                ul.dropdown-menu
+                                    li
+                                        a.custom-link(href='/articles') Article List
+                                        a.custom-link(href='/articles/add') Add Article
+                            li.dropdown
+                                a.custom-link.dropdown-toggle(data-toggle='dropdown', href='#')
+                                    | Videos
+                                    span.caret
+                                ul.dropdown-menu
+                                    li
+                                        a.custom-link(href='/videos') Video List
+                                        a.custom-link(href='/videos/add') Add Videos
+                            li
+                                a.custom-link(href='/users/register') Register
+                            li
+                                a.custom-link(href='/users/logout') Logout
 
         .container
             != messages('message', locals)

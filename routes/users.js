@@ -5,7 +5,16 @@ const router = express.Router();
 
 const User = require('../models/user');
 
-router.get('/login', function(req, res) {
+function ensureAuthenticated(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    } else {
+        req.flash('danger','You need to sign in for access to this page');
+        res.redirect('/users/login');
+    }
+}
+
+router.get('/login', ensureAuthenticated, function(req, res) {
    res.render('login', {
        title:'Login'
    });
@@ -92,6 +101,12 @@ passport.deserializeUser(function(id, done) {
 
 router.post('/login', passport.authenticate('local', {successRedirect: '/', failureRedirect: '/users/login', failureFlash: true}), function(req, res) {
     res.redirect('/');
+});
+
+router.get('/logout', function(req, res) {
+   req.logout();
+   req.flash('success', 'You are logged out');
+   res.redirect('/users/login');
 });
 
 

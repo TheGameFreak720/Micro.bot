@@ -4,8 +4,17 @@ const router = express.Router();
 //Bring in Article Model
 let Article = require('../models/article');
 
+function ensureAuthenticated(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    } else {
+        req.flash('danger','You need to sign in for access to this page');
+        res.redirect('/users/login');
+    }
+}
+
 ///Article Routes
-router.get('/', function(req, res) {
+router.get('/', ensureAuthenticated, function(req, res) {
     Article.find({}, function(err, articles) {
         if (err) {
             console.log(err);
@@ -19,7 +28,7 @@ router.get('/', function(req, res) {
 });
 
 //Load Edit Form
-router.get('/edit/:id', function(req, res) {
+router.get('/edit/:id', ensureAuthenticated, function(req, res) {
     Article.findById(req.params.id, function(err, article) {
         res.render('edit_article', {
             title: 'Edit Article',
@@ -29,7 +38,7 @@ router.get('/edit/:id', function(req, res) {
 });
 
 //Add Route
-router.get('/add', function(req, res) {
+router.get('/add', ensureAuthenticated, function(req, res) {
     res.render('add_article', {
         title: 'Add Article'
     });
@@ -113,7 +122,7 @@ router.delete('/:id', function(req,res) {
 });
 
 //Get single Article
-router.get('/:id', function(req, res) {
+router.get('/:id', ensureAuthenticated, function(req, res) {
     Article.findById(req.params.id, function(err, article) {
         res.render('article', {
             article: article
