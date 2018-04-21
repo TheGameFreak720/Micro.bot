@@ -14,13 +14,13 @@ function ensureAuthenticated(req, res, next){
     }
 }
 
-router.get('/login', ensureAuthenticated, function(req, res) {
+router.get('/login', function(req, res) {
    res.render('login', {
        title:'Login'
    });
 });
 
-router.get('/register', function(req, res) {
+router.get('/register', ensureAuthenticated, function(req, res) {
     res.render('register', {
         title:'Register'
     });

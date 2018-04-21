@@ -121,7 +121,7 @@ router.delete('/:id', function(req,res) {
 });
 
 //Get single Video
-router.get('/:id', ensureAuthenticated, function(req, res) {
+router.get('/:id', ensureAuthenticated,  function(req, res) {
     Video.findById(req.params.id, function(err, video) {
         res.render('video', {
             video: video
