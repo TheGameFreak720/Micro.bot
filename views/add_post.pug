@@ -1,0 +1,16 @@
+extends layout
+
+block content
+    h1 #{title}
+    form(method='POST', action='/posts/add')
+        #form-group
+            label Body:
+            textarea.form-control(name='body', type='text')
+        #form-group
+            label Link:
+            input.form-control(name='link', type='text')
+        #form-group
+            label Date:
+            input.form-control(name='date' type='datetime-local' value='2018-01-01T01:00')
+        br
+        input.btn.btn-primary(type='submit', value='Submit')

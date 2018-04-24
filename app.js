@@ -109,9 +109,11 @@ app.get('/', ensureAuthenticated, function(req, res) {
 //Route Files
 let articles = require('./routes/articles');
 let videos = require('./routes/videos');
+let posts = require('./routes/posts');
 let users = require('./routes/users');
 app.use('/articles', articles);
 app.use('/videos', videos);
+app.use('/posts', posts);
 app.use('/users', users);
 
 
