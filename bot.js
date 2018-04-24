@@ -22,10 +22,13 @@ module.exports = function bot() {
     stream.on('follow', followed);
 
     function followed(eventMsg) {
-        let name = eventMsg.source.name;
         let screenName = eventMsg.source.screen_name;
-        T.post('@' + screenName + ' Hey there, thank you for the follow. Check out my website https://commithub.com/ and share your thoughts. Cheers.');
-        console.log(screenName + ' has followed me');
+        let tweet = '@' + screenName + ' Hey there, thank you for the follow. Check out my website https://commithub.com/ and share your thoughts. Cheers.';
+        T.post('statuses/update', tweet, function (err, data, response) {
+            console.log(screenName + ' has followed me');
+            if (err) console.log(err);
+        });
+
     }
 
     //Bring in Models
