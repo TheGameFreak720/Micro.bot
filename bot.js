@@ -34,6 +34,7 @@ module.exports = function bot() {
     //Bring in Models
     let Video = require('./models/video');
     let Article = require('./models/article');
+    let Post = require('./models/post');
 
 
     //Schedule Posts

@@ -7,8 +7,7 @@ $(document).ready(function() {
          type: 'DELETE',
          url: '/articles/' + id,
          success: function(response) {
-             alert('Deleting Article');
-             window.location.href='/';
+             window.location.href='/articles';
          },
          error: function(err) {
              console.log(err);
@@ -23,8 +22,7 @@ $(document).ready(function() {
             type: 'DELETE',
             url: '/videos/' + id,
             success: function(response) {
-                alert('Deleting Video');
-                window.location.href='/';
+                window.location.href='/videos';
             },
             error: function(err) {
                 console.log(err);
@@ -39,8 +37,7 @@ $(document).ready(function() {
             type: 'DELETE',
             url: '/posts/' + id,
             success: function(response) {
-                alert('Deleting Post');
-                window.location.href='/';
+                window.location.href='/posts';
             },
             error: function(err) {
                 console.log(err);

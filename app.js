@@ -35,6 +35,7 @@ const app = express();
 //Bring in models
 let Video = require('./models/video');
 let Article = require('./models/article');
+let Post = require('./models/post');
 
 //Load view engine
 app.set('views', path.join(__dirname, 'views'));
