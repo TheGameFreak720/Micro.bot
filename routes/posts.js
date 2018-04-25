@@ -15,7 +15,7 @@ function ensureAuthenticated(req, res, next){
 
 ///Article Routes
 router.get('/', ensureAuthenticated, function(req, res) {
-    Post.find({}, function(err, posts) {
+    Post.find({}).sort('date').exec(function(err, posts) {
         if (err) {
             console.log(err);
         } else {
