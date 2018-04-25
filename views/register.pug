@@ -14,9 +14,15 @@ block content
             input.form-control(name='username', type='text')
         #form-group
             label Password:
-            input.form-control(name='password', type='text')
+            input#password.form-control(name='password', type='password')
+            br
+            input(type='checkbox', onclick='showPassword()')
+            | Show Password
         #form-group
             label Confirm Password:
-            input.form-control(name='password2', type='text')
+            input#password2.form-control(name='password2', type='password')
+            br
+            input(type='checkbox', onclick='showPassword2()')
+            | Show Password
         br
         input.btn.btn-primary(type='submit', value='Submit')
