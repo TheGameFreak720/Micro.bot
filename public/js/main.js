@@ -5,7 +5,7 @@ $(document).ready(function() {
      const id = $target.attr('data-id');
      $.ajax({
          type: 'DELETE',
-         url: '/article/' + id,
+         url: '/articles/' + id,
          success: function(response) {
              alert('Deleting Article');
              window.location.href='/';
@@ -21,7 +21,7 @@ $(document).ready(function() {
         const id = $target.attr('data-id');
         $.ajax({
             type: 'DELETE',
-            url: '/video/' + id,
+            url: '/videos/' + id,
             success: function(response) {
                 alert('Deleting Video');
                 window.location.href='/';
@@ -37,7 +37,7 @@ $(document).ready(function() {
         const id = $target.attr('data-id');
         $.ajax({
             type: 'DELETE',
-            url: '/post/' + id,
+            url: '/posts/' + id,
             success: function(response) {
                 alert('Deleting Post');
                 window.location.href='/';
