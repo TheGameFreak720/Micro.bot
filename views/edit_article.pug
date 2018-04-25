@@ -5,7 +5,7 @@ block content
     form(method='POST', action='/articles/edit/' + article._id)
         #form-group
             label Body:
-            textarea.form-control(name='body', type='text')= article.body
+            textarea.form-control(name='body')= article.body
         #form-group
             label Link:
             input.form-control(name='link', type='text', value=article.link)

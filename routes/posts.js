@@ -47,7 +47,7 @@ router.get('/add', ensureAuthenticated, function(req, res) {
 //Add Submit Post Route
 router.post('/add', function(req, res) {
     req.checkBody('body', 'Body is required!').notEmpty();
-    req.checkBody('link', 'Link is required!').notEmpty();
+    req.checkBody('url', 'URL is required!').notEmpty();
     req.checkBody('date', 'Date is required!').notEmpty();
 
     //Get errors
@@ -61,7 +61,7 @@ router.post('/add', function(req, res) {
     } else {
         let post = new Post();
         post.body = req.body.body;
-        post.link = req.body.link;
+        post.url = req.body.url;
         post.date = req.body.date;
 
         post.save(function (err) {
@@ -79,7 +79,7 @@ router.post('/add', function(req, res) {
 //Update Submit Post Route
 router.post('/edit/:id', function(req, res) {
     req.checkBody('body', 'Body is required!').notEmpty();
-    req.checkBody('link', 'Link is required!').notEmpty();
+    req.checkBody('url', 'URL is required!').notEmpty();
     req.checkBody('date', 'Date is required!').notEmpty();
 
     //Get errors
@@ -96,7 +96,7 @@ router.post('/edit/:id', function(req, res) {
     } else {
         let post = {};
         post.body = req.body.body;
-        post.link = req.body.link;
+        post.url = req.body.url;
         post.date = req.body.date;
 
         let query = {_id: req.params.id};

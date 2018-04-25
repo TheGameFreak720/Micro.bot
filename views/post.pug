@@ -1,0 +1,11 @@
+extends layout
+
+block content
+    .text-center
+        h2= post.body
+        h4= post.date
+        a.btn.btn-primary.btn-lg(href=post.url, target='_blank') Go to URL
+    hr
+    .text-center
+        a.btn.btn-primary(href='/posts/edit/' + post._id) Edit
+        a.btn.btn-danger.delete-post(href='#', data-id=post._id) Delete

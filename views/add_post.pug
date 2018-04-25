@@ -5,10 +5,10 @@ block content
     form(method='POST', action='/posts/add')
         #form-group
             label Body:
-            textarea.form-control(name='body', type='text')
+            textarea.form-control(name='body')
         #form-group
-            label Link:
-            input.form-control(name='link', type='text')
+            label URL:
+            input.form-control(name='url', type='text')
         #form-group
             label Date:
             input.form-control(name='date' type='datetime-local' value='2018-01-01T01:00')

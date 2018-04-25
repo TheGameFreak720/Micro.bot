@@ -5,7 +5,7 @@ block content
     form(method='POST', action='/videos/edit/' + video._id)
         #form-group
             label Body:
-            textarea.form-control(name='body', type='text')= video.body
+            textarea.form-control(name='body')= video.body
         #form-group
             label Link:
             input.form-control(name='link', type='text', value=video.link)

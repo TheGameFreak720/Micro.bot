@@ -15,7 +15,7 @@ const postSchema = mongoose.Schema({
         required: true,
         validate: bodyValidator
     },
-    link:{
+    url:{
         type: String,
         required: true
     },
