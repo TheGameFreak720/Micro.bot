@@ -38,7 +38,7 @@ router.get('/edit/:id', ensureAuthenticated, function(req, res) {
 });
 
 //Add Route
-router.get('/add', function(req, res) {
+router.get('/add', ensureAuthenticated, function(req, res) {
     res.render('add_post', {
         title: 'Add Post'
     });
