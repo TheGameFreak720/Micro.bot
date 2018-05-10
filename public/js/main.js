@@ -44,10 +44,29 @@ $(document).ready(function() {
             }
         });
     });
+
+    //Auto logout after inactivity
+    function inactivityLogout() {
+
+        var logoutUrl = '/users/logout'; // URL to logout page.
+
+        var timeout = null;
+
+        $(document).on('mousemove load click scroll keypress', function() {
+            clearTimeout(timeout);
+
+            timeout = setTimeout(function() {
+                window.location = logoutUrl;
+            }, 60000);
+        });
+    }
+
+    inactivityLogout()
 });
 
+
 function showPassword() {
-    var x = document.getElementById("password");
+    let x = document.getElementById("password");
 
     if (x.type === "password") {
         x.type = "text";
@@ -57,7 +76,7 @@ function showPassword() {
 }
 
 function showPassword2() {
-    var x = document.getElementById("password2");
+    let x = document.getElementById("password2");
 
     if (x.type === "password") {
         x.type = "text";
@@ -65,6 +84,7 @@ function showPassword2() {
         x.type = "password";
     }
 }
+
 
 
 
