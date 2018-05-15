@@ -2,6 +2,25 @@ extends layout
 
 block content
     h1 #{title}
-
+    img.logo(src='/img/Medium.png')
+    .row
+        .col-md-4
+            h2 Most recent post
+            p
+                | Test
+            p
+                a.btn.btn-secondary(href='#', role='button', target='_blank') View details »
+        .col-md-4
+            h2 Next scheduled
+            p
+                | Test
+            p
+                a.btn.btn-secondary(href='https://github.com/TheGameFreak720/Micro.bot', role='button', target='_blank') View details »
+        .col-md-4
+            h2 Post Bank
+            p
+                | You have 0 post stored
+            p
+                a.btn.btn-secondary(href='#', role='button', target='_blank') View details »
 block script
     script(src='/js/inactivity.js')
