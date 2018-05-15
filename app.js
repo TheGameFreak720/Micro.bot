@@ -107,6 +107,12 @@ app.get('/', function(req, res) {
     });
 });
 
+app.get('/dashboard', ensureAuthenticated, function(req, res) {
+    res.render('dashboard', {
+       title:'Dashboard'
+    });
+});
+
 //Route Files
 let articles = require('./routes/articles');
 let videos = require('./routes/videos');

@@ -4,25 +4,20 @@ block content
     h1 #{title}
     form(method='POST', action='/users/register')
         #form-group
-            label Name:
-            input.form-control(name='name', type='text')
+            input.form-control(name='name', type='text', placeholder='Name')
         #form-group
-            label Email:
-            input.form-control(name='email', type='text')
+            input.form-control(name='email', type='text', placeholder='Email')
         #form-group
-            label Username:
-            input.form-control(name='username', type='text')
+            input.form-control(name='username', type='text', placeholder='Username')
         #form-group
-            label Password:
-            input#password.form-control(name='password', type='password')
+            input#password.form-control(name='password', type='password', placeholder='Password')
             br
             input(type='checkbox', onclick='showPassword()')
             | Show Password
         #form-group
-            label Confirm Password:
-            input#password2.form-control(name='password2', type='password')
+            input#password2.form-control(name='password2', type='password', placeholder='Confirm Password')
             br
             input(type='checkbox', onclick='showPassword2()')
             | Show Password
         br
-        input.btn.btn-primary(type='submit', value='Submit')
+        input.btn.btn-lg.btn-primary.btn-block(type='submit', value='Submit')
