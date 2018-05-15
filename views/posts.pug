@@ -6,3 +6,5 @@ block content
         each post, i in posts
             li.list-group-item
                 a(href="/posts/" + post._id)= post.body
+block script
+    script(src='/js/inactivity.js')

@@ -8,3 +8,5 @@ block content
     .text-center
         a.btn.btn-primary(href='/videos/edit/' + video._id) Edit
         a.btn.btn-danger.delete-video(href='#', data-id=video._id) Delete
+block script
+    script(src='/js/inactivity.js')

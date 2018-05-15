@@ -8,3 +8,5 @@ block content
     .text-center
         a.btn.btn-primary(href='/articles/edit/' + article._id) Edit
         a.btn.btn-danger.delete-article(href='#', data-id=article._id) Delete
+block script
+    script(src='/js/inactivity.js')
