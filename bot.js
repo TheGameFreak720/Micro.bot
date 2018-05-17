@@ -39,6 +39,22 @@ module.exports = function bot() {
 
     //Schedule Posts
 
+    const regex = /[T + : + -]/g;
+
+    function schedulePost() {
+        Post.find(function (err, post) {
+            const date = post[0].date.split(regex);
+            const deleted = date.splice(1, date.length);
+            const reversed = deleted.reverse();
+            const dateString = reversed.join(' ');
+            console.log(dateString);
+            const Post = schedule.scheduleJob(dateString + ' *', function() {
+                console.log('TEST');
+            });
+        });
+    }
+    schedulePost();
+
     const videoPost = schedule.scheduleJob({hour: 11, minute: 0}, function () {
         Video.find(function (err, video) {
             if (err) {
