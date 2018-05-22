@@ -43,14 +43,31 @@ module.exports = function bot() {
 
     function schedulePost() {
         Post.find(function (err, post) {
-            const date = post[0].date.split(regex);
-            const deleted = date.splice(1, date.length);
-            const reversed = deleted.reverse();
-            const dateString = reversed.join(' ');
-            console.log(dateString);
-            const Post = schedule.scheduleJob(dateString + ' *', function() {
-                console.log('TEST');
-            });
+            if (err) {
+                console.log(err);
+            } else {
+                const date = post[0].date.split(regex);
+                const deleted = date.splice(1, date.length);
+                const reversed = deleted.reverse();
+                const dateString = reversed.join(' ');
+
+                const Post = schedule.scheduleJob(dateString + ' *', function () {
+
+                    let tweet = {
+                        status: post[0].body + '\n \n' + post[0].link
+                    };
+
+                    T.post('statuses/update', tweet, function (err, data, response) {
+
+                        console.log(tweet);
+                        if (err) {
+                            console.log(err);
+                        }
+                    });
+                    post[0].remove();
+                    schedulePost();
+                });
+            }
         });
     }
     schedulePost();
