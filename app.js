@@ -33,8 +33,6 @@ db.on('error', function(err) {
 const app = express();
 
 //Bring in models
-let Video = require('./models/video');
-let Article = require('./models/article');
 let Post = require('./models/post');
 
 //Load view engine
@@ -114,12 +112,8 @@ app.get('/dashboard', ensureAuthenticated, function(req, res) {
 });
 
 //Route Files
-let articles = require('./routes/articles');
-let videos = require('./routes/videos');
 let posts = require('./routes/posts');
 let users = require('./routes/users');
-app.use('/articles', articles);
-app.use('/videos', videos);
 app.use('/posts', posts);
 app.use('/users', users);
 
