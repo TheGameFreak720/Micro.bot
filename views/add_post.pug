@@ -11,8 +11,9 @@ block content
             input.form-control(name='url', type='text')
         #form-group
             label Date:
-            input.form-control(name='date' type='datetime-local' value='2018-01-01T01:00')
+            input.form-control(id='datePicker' name='date' type='datetime-local' value='2018-01-01T01:00')
         br
         input.btn.btn-primary(type='submit', value='Submit')
 block script
     script(src='/js/inactivity.js')
+    script(src='/js/dateNow.js')

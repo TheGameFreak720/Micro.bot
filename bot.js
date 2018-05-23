@@ -3,7 +3,6 @@ const Twit = require('twit');
 const request = require('request');
 const schedule = require('node-schedule');
 const twitConfig = require('./config/twit');
-const twitchConfig = require('./config/twitch');
 
 module.exports = function bot() {
 
