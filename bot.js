@@ -34,7 +34,7 @@ module.exports = function bot() {
                 const Post = schedule.scheduleJob(dateString + ' *', function () {
 
                     let tweet = {
-                        status: post[0].body + '\n \n' + post[0].link
+                        status: post[0].body + '\n \n' + post[0].url
                     };
 
                     T.post('statuses/update', tweet, function (err, data, response) {
