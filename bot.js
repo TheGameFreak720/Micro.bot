@@ -22,7 +22,7 @@ module.exports = function bot() {
     const regex = /[T + : + -]/g;
 
     function schedulePost() {
-        Post.find(function (err, post) {
+        Post.find({}).sort('date').exec(function (err, post) {
             if (err) {
                 console.log(err);
             } else {
@@ -44,8 +44,13 @@ module.exports = function bot() {
                             console.log(err);
                         }
                     });
+
                     post[0].remove();
-                    schedulePost();
+                    //Makes sure that when we try to run the function again the post is removed completely. It also ensures no spam so win win
+                    let wait = setInterval(function() {
+                       clearInterval(wait);
+                       schedulePost();
+                    }, 30000);
                 });
             }
         });

@@ -13,7 +13,7 @@ function ensureAuthenticated(req, res, next){
     }
 }
 
-///Article Routes
+///Post Routes
 router.get('/', ensureAuthenticated, function(req, res) {
     Post.find({}).sort('date').exec(function(err, posts) {
         if (err) {
