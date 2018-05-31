@@ -64,6 +64,35 @@ router.post('/add', function(req, res) {
         post.url = req.body.url;
         post.date = req.body.date;
 
+        //Making date look pretty for the front end
+        let dateArr = req.body.date.split(/[T + : + -]/g);
+
+        let months = [
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+            'July',
+            'August',
+            'September',
+            'October',
+            'November',
+            'December'
+        ];
+
+        let pretty = months[parseInt(dateArr[1])] + ' ' + dateArr[2] + ', ' + dateArr[0];
+
+        if (dateArr[3] < 12) {
+            pretty += ' at ' + dateArr[3] + ':' + dateArr[4] + ' AM'
+        } else {
+            var hour = parseInt(dateArr[3]) - 12;
+            pretty += ' at ' + hour + ':' + dateArr[4] + ' PM'
+        }
+
+        post.datePretty = pretty;
+
         post.save(function (err) {
             if (err) {
                 console.log(err);
@@ -98,6 +127,35 @@ router.post('/edit/:id', function(req, res) {
         post.body = req.body.body;
         post.url = req.body.url;
         post.date = req.body.date;
+
+        //Making date look pretty for the front end
+        let dateArr = req.body.date.split(/[T + : + -]/g);
+
+        let months = [
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+            'July',
+            'August',
+            'September',
+            'October',
+            'November',
+            'December'
+        ];
+
+        let pretty = months[parseInt(dateArr[1])] + ' ' + dateArr[2] + ', ' + dateArr[0];
+
+        if (dateArr[3] < 12) {
+            pretty += ' at ' + dateArr[3] + ':' + dateArr[4] + ' AM'
+        } else {
+            var hour = parseInt(dateArr[3]) - 12;
+            pretty += ' at ' + hour + ':' + dateArr[4] + ' PM'
+        }
+
+        post.datePretty = pretty;
 
         let query = {_id: req.params.id};
 

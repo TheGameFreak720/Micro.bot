@@ -5,6 +5,6 @@ block content
     ul.list-group
         each post, i in posts
             li.list-group-item
-                a(href="/posts/" + post._id)= post.body + " " + post.date
+                a(href="/posts/" + post._id)= post.body + ": " + post.datePretty
 block script
     script(src='/js/inactivity.js')

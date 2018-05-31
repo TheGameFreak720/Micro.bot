@@ -22,6 +22,9 @@ const postSchema = mongoose.Schema({
     date:{
         type: String,
         required: true
+    },
+    datePretty: {
+        type: String
     }
 });
 
