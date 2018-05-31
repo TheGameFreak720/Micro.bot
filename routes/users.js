@@ -20,6 +20,11 @@ router.get('/login', function(req, res) {
    });
 });
 
+router.get('/loginFailed', function(req, res) {
+   req.flash('danger', 'Username or password is incorrect');
+   res.redirect('/users/login')
+});
+
 router.get('/register', ensureAuthenticated, function(req, res) {
     res.render('register', {
         title:'Register'
@@ -76,7 +81,7 @@ passport.use(new LocalStrategy(
         User.getUserByUsername(username, function(err, user) {
            if(err) throw err;
            if (!user) {
-               return done(null, false, {message: 'User doesn\'t exist'});
+               return done(null, false);
            }
 
            User.comparePassword(password, user.password, function(err, isMatch) {
@@ -84,7 +89,7 @@ passport.use(new LocalStrategy(
               if(isMatch) {
                   return done(null, user);
               } else {
-                  return done(null, false, {message: 'Invalid Password'});
+                  return done(null, false);
               }
            });
         });
@@ -101,7 +106,7 @@ passport.deserializeUser(function(id, done) {
     });
 });
 
-router.post('/login', passport.authenticate('local', {successRedirect: '/dashboard', failureRedirect: '/users/login', failureFlash: true}), function(req, res) {
+router.post('/login', passport.authenticate('local', {successRedirect: '/dashboard', failureRedirect: '/users/loginFailed'}), function(req, res) {
     res.redirect('/dashboard');
 });
 
