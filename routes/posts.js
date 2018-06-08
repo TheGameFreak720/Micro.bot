@@ -1,4 +1,5 @@
 const express = require('express');
+const bot = require('../bot');
 const router = express.Router();
 
 //Bring in Article Model
@@ -100,6 +101,7 @@ router.post('/add', function(req, res) {
             } else {
                 req.flash('success', 'Post Added');
                 res.redirect('/posts');
+                bot();
             }
         });
     }
@@ -166,6 +168,7 @@ router.post('/edit/:id', function(req, res) {
             } else {
                 req.flash('success', 'Post Updated');
                 res.redirect('/posts');
+                bot();
             }
         });
     }
@@ -180,6 +183,7 @@ router.delete('/:id', function(req,res) {
             console.log(err);
         }
         res.send('Success');
+        bot();
     });
 });
 

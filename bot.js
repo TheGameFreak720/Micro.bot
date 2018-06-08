@@ -55,6 +55,7 @@ module.exports = function bot() {
                     }
                 });
             } else {
+                console.log('Post have been rescheduled successfully');
                 let date = post[0].date.split(regex);
                 let deleted = date.splice(1, date.length);
                 let reversed = deleted.reverse();
@@ -85,6 +86,4 @@ module.exports = function bot() {
         });
     }
     schedulePost();
-
-    console.log('The bot is starting');
 };
