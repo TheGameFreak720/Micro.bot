@@ -25,6 +25,9 @@ module.exports = function bot() {
         Post.find({}).sort('date').exec(function (err, post) {
             if (err) {
                 console.log(err);
+            }
+            if (!post.length) {
+                console.log('No post was found. Email was sent to notify of this issue');
             } else {
                 const date = post[0].date.split(regex);
                 const deleted = date.splice(1, date.length);
