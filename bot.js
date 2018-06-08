@@ -2,18 +2,38 @@ const express = require('express');
 const Twit = require('twit');
 const request = require('request');
 const schedule = require('node-schedule');
+const nodemailer = require('nodemailer');
 const twitConfig = require('./config/twit');
+const emailConfig = require('./config/email');
 
 module.exports = function bot() {
 
-    var T = new Twit({
+    let T = new Twit({
         consumer_key: twitConfig.consumerKey,
         consumer_secret: twitConfig.consumerSecret,
         access_token: twitConfig.accessToken,
         access_token_secret: twitConfig.accessSecret
     });
 
-    //Bring in Models
+    let transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 587,
+        secure: false, // true for 465, false for other ports
+        auth: {
+            user: emailConfig.user, // generated ethereal user
+            pass: emailConfig.pass // generated ethereal password
+        }
+    });
+
+    let mailOptions = {
+        from: 'cyanide6033@gmail.com',
+        to: 'luis.alvarez@commithub.com',
+        subject: 'Micro.bot has no more posts',
+        text: 'Log in to Micro.bot and add a few new posts.'
+    };
+
+
+        //Bring in Models
     let Post = require('./models/post');
 
 
@@ -27,14 +47,20 @@ module.exports = function bot() {
                 console.log(err);
             }
             if (!post.length) {
-                console.log('No post was found. Email was sent to notify of this issue');
+                transporter.sendMail(mailOptions, function(error, info){
+                    if (error) {
+                        console.log(error);
+                    } else {
+                        console.log('Email sent: ' + info.response);
+                    }
+                });
             } else {
-                const date = post[0].date.split(regex);
-                const deleted = date.splice(1, date.length);
-                const reversed = deleted.reverse();
-                const dateString = reversed.join(' ');
+                let date = post[0].date.split(regex);
+                let deleted = date.splice(1, date.length);
+                let reversed = deleted.reverse();
+                let dateString = reversed.join(' ');
 
-                const Post = schedule.scheduleJob(dateString + ' *', function () {
+                let Post = schedule.scheduleJob(dateString + ' *', function () {
 
                     let tweet = {
                         status: post[0].body + '\n \n' + post[0].url
