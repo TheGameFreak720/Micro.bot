@@ -20,8 +20,8 @@ module.exports = function bot() {
         port: 587,
         secure: false, // true for 465, false for other ports
         auth: {
-            user: emailConfig.user, // generated ethereal user
-            pass: emailConfig.pass // generated ethereal password
+            user: emailConfig.user,
+            pass: emailConfig.pass
         }
     });
 
@@ -33,13 +33,17 @@ module.exports = function bot() {
     };
 
 
-        //Bring in Models
+    //Bring in Models
     let Post = require('./models/post');
 
 
     //Schedule Posts
 
     const regex = /[T + : + -]/g;
+
+    let dailySchedule = schedule.scheduleJob('0 0 * * *', function(){
+        schedulePost();
+    });
 
     function schedulePost() {
         Post.find({}).sort('date').exec(function (err, post) {
@@ -56,12 +60,14 @@ module.exports = function bot() {
                 });
             } else {
                 console.log('Post have been rescheduled successfully');
+
+                //Format the DB date string to schedule it
                 let date = post[0].date.split(regex);
                 let deleted = date.splice(1, date.length);
                 let reversed = deleted.reverse();
                 let dateString = reversed.join(' ');
 
-                let Post = schedule.scheduleJob(dateString + ' *', function () {
+                let queuePost = schedule.scheduleJob(dateString + ' *', function () {
 
                     let tweet = {
                         status: post[0].body + '\n \n' + post[0].url
