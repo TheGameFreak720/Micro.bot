@@ -4,23 +4,19 @@ block content
     h1 #{title}
     img.logo(src='/img/Medium.png')
     .row
-        .col-md-4
-            h2 Most recent post
+        .col-md-10
+            h2 Next Scheduled
             p
-                | Test
+                | Post: #{posts[0].body}
             p
-                a.btn.btn-secondary(href='#', role='button', target='_blank') View details »
-        .col-md-4
-            h2 Next scheduled
+                | Time: #{posts[0].datePretty}
             p
-                | Test
-            p
-                a.btn.btn-secondary(href='https://github.com/TheGameFreak720/Micro.bot', role='button', target='_blank') View details »
-        .col-md-4
+                a.btn.btn-secondary(href=posts[0].url, role='button', target='_blank') View details »
+        .col-md-2
             h2 Post Bank
             p
-                | You have 0 post stored
+                | You have #{posts.length} post stored
             p
-                a.btn.btn-secondary(href='#', role='button', target='_blank') View details »
+                a.btn.btn-secondary(href='/posts', role='button') View details »
 block script
     script(src='/js/inactivity.js')

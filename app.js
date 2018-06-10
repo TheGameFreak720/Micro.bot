@@ -106,8 +106,15 @@ app.get('/', function(req, res) {
 });
 
 app.get('/dashboard', ensureAuthenticated, function(req, res) {
-    res.render('dashboard', {
-       title:'Dashboard'
+    Post.find({}).sort('date').exec(function (err, posts) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.render('dashboard', {
+                title: 'Dashboard',
+                posts: posts
+            });
+        }
     });
 });
 
