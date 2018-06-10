@@ -7,5 +7,5 @@ $(document).ready(function() {
     var second = now.getMinutes();
 
     var today = now.getFullYear() + '-' + (month) + '-' + (day) + 'T' + (hour) + ':' + (second);
-    $('#datePicker').val(today);
+    $('#datePicker').val(today).prop('min', today);
 });
