@@ -83,7 +83,7 @@ router.post('/add', function(req, res) {
             'December'
         ];
 
-        let pretty = months[parseInt(dateArr[1])] + ' ' + dateArr[2] + ', ' + dateArr[0];
+        let pretty = months[parseInt(dateArr[1]) - 1] + ' ' + dateArr[2] + ', ' + dateArr[0];
 
         if (dateArr[3] < 12) {
             pretty += ' at ' + dateArr[3] + ':' + dateArr[4] + ' AM'
@@ -148,7 +148,7 @@ router.post('/edit/:id', function(req, res) {
             'December'
         ];
 
-        let pretty = months[parseInt(dateArr[1])] + ' ' + dateArr[2] + ', ' + dateArr[0];
+        let pretty = months[parseInt(dateArr[1]) - 1] + ' ' + dateArr[2] + ', ' + dateArr[0];
 
         if (dateArr[3] < 12) {
             pretty += ' at ' + dateArr[3] + ':' + dateArr[4] + ' AM'

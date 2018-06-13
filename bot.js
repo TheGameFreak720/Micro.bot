@@ -26,8 +26,8 @@ module.exports = function bot() {
     });
 
     let mailOptions = {
-        from: 'cyanide6033@gmail.com',
-        to: 'luis.alvarez@commithub.com',
+        from: 'luis.alvarez@commithub.com',
+        to: 'cyanide6033@gmail.com',
         subject: 'Micro.bot has no more posts',
         text: 'Log in to Micro.bot and add a few new posts.'
     };
