@@ -86,7 +86,7 @@ module.exports = function bot() {
                     let wait = setInterval(function() {
                        clearInterval(wait);
                        schedulePost();
-                    }, 30000);
+                    }, 60000);
                 });
             }
         });
