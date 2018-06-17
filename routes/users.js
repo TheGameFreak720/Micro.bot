@@ -1,5 +1,7 @@
 const express = require('express');
 const passport = require('passport');
+const multer = require('multer');
+const path = require('path');
 const LocalStrategy = require('passport-local').Strategy;
 const router = express.Router();
 
@@ -11,6 +13,39 @@ function ensureAuthenticated(req, res, next){
     } else {
         req.flash('danger','You need to sign in for access to this page');
         res.redirect('/users/login');
+    }
+}
+
+//Set Storage Engine
+const storage = multer.diskStorage({
+    destination: 'public/img',
+    filename: function(req, file, cb) {
+        cb(null, 'profile.png')
+    }
+});
+
+//Init upload
+const upload = multer({
+    storage: storage,
+    limits: {fileSize: 1000000},
+    fileFilter: function(req, file, cb) {
+        checkFileType(file, cb);
+    }
+}).single('myImage');
+
+//Check file type
+function checkFileType(file, cb) {
+    //allowed ext
+    const filetypes = /jpeg|jpg|png|gif/;
+    //check ext
+    const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+    //check mime
+    const mimetype = filetypes.test(file.mimetype);
+
+    if (mimetype && extname) {
+        return cb(null, true);
+    } else {
+        cb('Error: Images only!');
     }
 }
 
@@ -40,9 +75,28 @@ router.get('/profile', ensureAuthenticated, function(req, res) {
     });
 });
 
+router.get('/edit-profile', ensureAuthenticated, function(req, res) {
+    res.render('edit_profile', {
+        title:'Edit Profile'
+    });
+});
+
 router.get('/change-password', ensureAuthenticated, function(req, res) {
     res.render('change_password', {
         title:'Change Password'
+    });
+});
+
+
+router.post('/edit-profile', ensureAuthenticated, function(req, res) {
+   upload(req, res, function (err) {
+        if (err) {
+            req.flash('danger', 'Error uploading file');
+            res.redirect('/users/edit-profile');
+        } else {
+            req.flash('success', 'You have successfully edited the profile');
+            res.redirect('/users/profile');
+        }
     });
 });
 
