@@ -31,6 +31,21 @@ router.get('/register', ensureAuthenticated, function(req, res) {
     });
 });
 
+router.get('/profile', ensureAuthenticated, function(req, res) {
+    let user = req.user;
+
+    res.render('profile', {
+        title:'Profile',
+        user: user
+    });
+});
+
+router.get('/change-password', ensureAuthenticated, function(req, res) {
+    res.render('change_password', {
+        title:'Change Password'
+    });
+});
+
 //Register new users
 
 router.post('/register', function(req, res) {

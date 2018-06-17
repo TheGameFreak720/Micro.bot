@@ -67,6 +67,16 @@ function showPassword2() {
     }
 }
 
+function showPassword3() {
+    let x = document.getElementById("password3");
+
+    if (x.type === "password") {
+        x.type = "text";
+    } else {
+        x.type = "password";
+    }
+}
+
 
 
 

@@ -9,6 +9,14 @@ h1 {
     margin: 0 auto;
 }
 
+.profile {
+    display: block;
+    margin: 0 auto;
+    width: 15%;
+    height: 15%;
+    border-radius: 50%;
+}
+
 .center-text {
     text-align: center;
 }

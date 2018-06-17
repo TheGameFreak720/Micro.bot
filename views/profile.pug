@@ -1,0 +1,24 @@
+extends layout
+
+block content
+    h1 #{title}
+    .row
+        .col-md-12
+            img.profile(src='/img/profile.png')
+    hr
+    .row
+        .col-md-12
+            h2.center-text #{user.name}
+    br
+    .row
+        .col-md-6
+            h4.center-text
+                | Username: #{user.username}
+        .col-md-6
+            h4.center-text
+                | Email: #{user.email}
+    .text-center
+        a.btn.btn-primary.btn-lg(href='/users/change-password') Change Password
+
+block script
+    script(src='/js/inactivity.js')
