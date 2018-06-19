@@ -127,6 +127,7 @@ router.post('/edit/:id', function(req, res) {
     } else {
         let post = {};
         post.body = req.body.body;
+        console.log(post.body);
         post.url = req.body.url;
         post.date = req.body.date;
 

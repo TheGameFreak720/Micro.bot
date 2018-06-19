@@ -1,0 +1,14 @@
+extends layout
+
+block content
+    h1 #{title}
+    form(method='POST', action='/users/edit-profile-pic', enctype='multipart/form-data')
+        #form-group
+            label.btn.btn-primary(for='my-file-selector')
+                input#my-file-selector(name='myImage', type='file', style='display:none', onchange="$('#upload-file-info').html(this.files[0].name)")
+                |     Upload Image
+            span#upload-file-info.label.label-info
+        br
+        input.btn.btn-primary(type='submit', value='Submit')
+block script
+    script(src='/js/inactivity.js')

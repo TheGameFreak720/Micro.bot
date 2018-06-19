@@ -2,12 +2,13 @@ extends layout
 
 block content
     h1 #{title}
-    form(method='POST', action='/users/edit-profile', enctype='multipart/form-data')
+    form(method='POST', action='/users/edit-profile')
         #form-group
-            label.btn.btn-primary(for='my-file-selector')
-                input#my-file-selector(name='myImage', type='file', style='display:none', onchange="$('#upload-file-info').html(this.files[0].name)")
-                |     Upload Image
-            span#upload-file-info.label.label-info
+            label Name:
+            input.form-control(name='name', type='text', value=user.name)
+        #form-group
+            label Email:
+            input.form-control(name='email' type='text', value=user.email)
         br
         input.btn.btn-primary(type='submit', value='Submit')
 block script

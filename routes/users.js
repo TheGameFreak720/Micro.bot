@@ -76,8 +76,17 @@ router.get('/profile', ensureAuthenticated, function(req, res) {
 });
 
 router.get('/edit-profile', ensureAuthenticated, function(req, res) {
+    let user = req.user;
+
     res.render('edit_profile', {
-        title:'Edit Profile'
+        title:'Edit Profile',
+        user: user
+    });
+});
+
+router.get('/edit-profile-pic', ensureAuthenticated, function(req, res) {
+    res.render('edit_profile_pic', {
+        title:'Edit Profile Picture'
     });
 });
 
@@ -88,11 +97,46 @@ router.get('/change-password', ensureAuthenticated, function(req, res) {
 });
 
 
-router.post('/edit-profile', ensureAuthenticated, function(req, res) {
-   upload(req, res, function (err) {
+router.post('/edit-profile', function(req, res) {
+    req.checkBody('name', 'Name is required!').notEmpty();
+    req.checkBody('email', 'Email is required!').notEmpty();
+    req.checkBody('email', 'Email is not valid').isEmail();
+
+    //Get errors
+    let errors = req.validationErrors();
+    let user = req.user;
+
+    if (errors) {
+        res.render('edit_profile', {
+            title: 'Edit Profile',
+            user: user,
+            errors: errors
+        });
+    } else {
+        let editUser = {};
+        editUser.name = req.body.name;
+        console.log(editUser.name);
+        editUser.email = req.body.email;
+
+        let query = {'username': user.username};
+
+        User.update(query, editUser, function (err) {
+            if (err) {
+                console.log(err);
+                return;
+            } else {
+                req.flash('success', 'You have successfully edited the profile');
+                res.redirect('/users/profile');
+            }
+        });
+    }
+});
+
+router.post('/edit-profile-pic', function(req, res) {
+    upload(req, res, function (err) {
         if (err) {
             req.flash('danger', 'Error uploading file');
-            res.redirect('/users/edit-profile');
+            res.redirect('/users/edit-profile-pic');
         } else {
             req.flash('success', 'You have successfully edited the profile');
             res.redirect('/users/profile');
